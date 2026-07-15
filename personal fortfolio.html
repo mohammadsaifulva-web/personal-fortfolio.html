@@ -1,0 +1,706 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Saif Islam - Frontend Web Developer & Data Analysis</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+    --primary: #6366f1;
+    --secondary: #8b5cf6;
+    --accent: #ec4899;
+    --green: #10b981;
+    --bg: #030712;
+    --bg2: #0a0f1e;
+    --card: #0f172a;
+    --border: rgba(99,102,241,0.15);
+    --muted: #6b7280;
+    --text: #f1f5f9;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); overflow-x: hidden; }
+
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+@keyframes gradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+@keyframes slideIn { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes reveal { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+
+/* REVEAL */
+.reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease, transform 0.8s ease; }
+.reveal.active { opacity: 1; transform: translateY(0); }
+
+/* NAV */
+nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 0 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(3,7,18,0.95);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    z-index: 1000;
+}
+.logo { font-size: 20px; font-weight: 900; background: linear-gradient(135deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.nav-links { display: flex; gap: 35px; align-items: center; }
+.nav-links a { color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 500; transition: 0.3s; position: relative; }
+.nav-links a::after { content: ''; position: absolute; bottom: -3px; left: 0; width: 0; height: 1px; background: var(--primary); transition: 0.3s; }
+.nav-links a:hover { color: var(--text); }
+.nav-links a:hover::after { width: 100%; }
+.nav-hire { padding: 9px 22px; background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: 0.3s; }
+.nav-hire:hover { opacity: 0.9; transform: translateY(-1px); }
+
+/* HERO */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 100px 70px 60px;
+    position: relative;
+    overflow: hidden;
+    animation: fadeInUp 1s ease;
+}
+.hero-bg {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 20% 50%, rgba(99,102,241,0.12) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 30%, rgba(236,72,153,0.08) 0%, transparent 50%);
+}
+.hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(rgba(99,102,241,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(99,102,241,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+}
+.hero-left { flex: 1; position: relative; z-index: 1; }
+.hero-status { display: inline-flex; align-items: center; gap: 8px; padding: 7px 16px; background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.25); border-radius: 25px; font-size: 13px; color: var(--green); font-weight: 600; margin-bottom: 25px; }
+.status-dot { width: 7px; height: 7px; background: var(--green); border-radius: 50%; animation: pulse 2s infinite; }
+.hero h1 { font-size: 72px; font-weight: 900; line-height: 1.05; letter-spacing: -3px; margin-bottom: 20px; }
+.hero h1 .name { background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent)); background-size: 200% 200%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: gradient 4s ease infinite; display: block; }
+.hero h1 .title { color: var(--text); font-size: 40px; letter-spacing: -1px; }
+.hero p { font-size: 18px; color: var(--muted); line-height: 1.8; margin-bottom: 40px; max-width: 550px; }
+.hero-btns { display: flex; gap: 15px; margin-bottom: 50px; flex-wrap: wrap; }
+.btn-main { padding: 15px 35px; background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; border: none; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 8px; }
+.btn-main:hover { opacity: 0.9; transform: translateY(-2px); box-shadow: 0 10px 30px rgba(99,102,241,0.3); }
+.btn-ghost { padding: 15px 35px; background: transparent; color: var(--text); border: 1px solid var(--border); border-radius: 10px; font-size: 15px; font-weight: 500; cursor: pointer; transition: 0.3s; }
+.btn-ghost:hover { border-color: var(--primary); color: var(--primary); }
+.hero-socials { display: flex; gap: 12px; margin-bottom: 50px; }
+.social-link { width: 42px; height: 42px; background: var(--card); border: 1px solid var(--border); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; cursor: pointer; transition: 0.3s; text-decoration: none; }
+.social-link:hover { border-color: var(--primary); transform: translateY(-3px); }
+.hero-stats { display: flex; gap: 40px; padding-top: 40px; border-top: 1px solid var(--border); }
+.hero-stat h3 { font-size: 36px; font-weight: 900; letter-spacing: -1px; background: linear-gradient(135deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.hero-stat p { font-size: 13px; color: var(--muted); margin-top: 4px; }
+.hero-right { flex: 1; display: flex; justify-content: center; align-items: center; position: relative; z-index: 1; }
+/* মেইন বক্সের সাইজ জোরপূর্বক ফিক্সড করা */
+.hero-avatar {
+    width: 320px !important;    /* আপনার পছন্দমতো সাইজ ছোট-বড় করতে পারেন */
+    height: 340px !important;   /* আগের বক্সের সাইজ অনুযায়ী দেওয়া */
+    border-radius: 40px !important; /* চারকোনা কোণাগুলো সুন্দর বাঁকা করার জন্য */
+    overflow: hidden !important;    /* ছবির বাড়তি অংশ যেন বক্সের বাইরে না যায় */
+    position: relative !important;
+    margin: 0 auto;             /* মাঝখানে রাখার জন্য */
+}
+
+/* ছবির সাইজ বক্সের ভেতরে লক করা */
+.hero-avatar img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important; /* ছবি জুম বা নষ্ট না হয়ে সুন্দর ফিট হবে */
+}
+.hero-avatar::before { content: ''; position: absolute; inset: -2px; border-radius: 32px; background: linear-gradient(135deg, var(--primary), var(--accent)); opacity: 0.3; z-index: -1; }
+.floating-badge { position: absolute; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 10px 16px; display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+.floating-badge.top-right { top: -20px; right: -20px; }
+.floating-badge.bottom-left { bottom: -20px; left: -20px; }
+.badge-icon { font-size: 20px; }
+
+/* SKILLS */
+.skills { padding: 100px 70px; background: var(--bg2); }
+.section-header { text-align: center; margin-bottom: 60px; }
+.section-tag { font-size: 13px; color: var(--primary); font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
+.section-header h2 { font-size: 46px; font-weight: 800; letter-spacing: -2px; }
+.section-header h2 span { background: linear-gradient(135deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.section-header p { font-size: 16px; color: var(--muted); margin-top: 12px; }
+.skills-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; max-width: 1100px; margin: 0 auto; }
+.skill-card { background: var(--card); padding: 28px; border-radius: 16px; border: 1px solid var(--border); transition: 0.3s; }
+.skill-card:hover { transform: translateY(-5px); border-color: rgba(99,102,241,0.3); box-shadow: 0 15px 40px rgba(99,102,241,0.08); }
+.skill-icon { font-size: 36px; margin-bottom: 15px; display: block; }
+.skill-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 12px; }
+.skill-bar { background: rgba(255,255,255,0.06); border-radius: 6px; height: 6px; overflow: hidden; }
+.skill-fill { height: 100%; border-radius: 6px; background: linear-gradient(90deg, var(--primary), var(--accent)); transition: width 1.5s ease; }
+.skill-percent { font-size: 12px; color: var(--muted); margin-top: 6px; }
+
+/* PROJECTS */
+.projects { padding: 100px 70px; background: var(--bg); }
+.projects-filter { display: flex; gap: 10px; justify-content: center; margin-bottom: 40px; flex-wrap: wrap; }
+.filter-pill { padding: 8px 20px; background: var(--card); border: 1px solid var(--border); border-radius: 25px; font-size: 13px; font-weight: 600; cursor: pointer; transition: 0.3s; color: var(--muted); }
+.filter-pill.active, .filter-pill:hover { background: var(--primary); color: white; border-color: var(--primary); }
+.projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; max-width: 1200px; margin: 0 auto; }
+.project-card { background: var(--card); border-radius: 16px; overflow: hidden; border: 1px solid var(--border); transition: 0.3s; }
+.project-card:hover { transform: translateY(-8px); border-color: rgba(99,102,241,0.3); box-shadow: 0 20px 50px rgba(99,102,241,0.1); }
+.project-thumb { height: 200px; display: flex; align-items: center; justify-content: center; font-size: 70px; position: relative; overflow: hidden; }
+.project-card:nth-child(1) .project-thumb { background: linear-gradient(135deg, rgba(99,102,241,0.2), rgba(139,92,246,0.1)); }
+.project-card:nth-child(2) .project-thumb { background: linear-gradient(135deg, rgba(239,68,68,0.2), rgba(249,115,22,0.1)); }
+.project-card:nth-child(3) .project-thumb { background: linear-gradient(135deg, rgba(16,185,129,0.2), rgba(6,182,212,0.1)); }
+.project-card:nth-child(4) .project-thumb { background: linear-gradient(135deg, rgba(245,158,11,0.2), rgba(234,179,8,0.1)); }
+.project-card:nth-child(5) .project-thumb { background: linear-gradient(135deg, rgba(236,72,153,0.2), rgba(244,114,182,0.1)); }
+.project-card:nth-child(6) .project-thumb { background: linear-gradient(135deg, rgba(6,182,212,0.2), rgba(59,130,246,0.1)); }
+.project-overlay { position: absolute; inset: 0; background: rgba(99,102,241,0.85); display: flex; align-items: center; justify-content: center; gap: 12px; opacity: 0; transition: 0.3s; }
+.project-card:hover .project-overlay { opacity: 1; }
+.overlay-btn { padding: 10px 20px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; transition: 0.3s; border: none; }
+.overlay-btn.primary { background: white; color: var(--primary); }
+.overlay-btn.ghost { background: transparent; color: white; border: 1px solid rgba(255,255,255,0.5); }
+.overlay-btn:hover { transform: scale(1.05); }
+.project-info { padding: 20px; }
+.project-tag { font-size: 11px; color: var(--primary); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+.project-info h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+.project-info p { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 15px; }
+.project-tech { display: flex; gap: 6px; flex-wrap: wrap; }
+.tech-tag { padding: 3px 10px; background: rgba(99,102,241,0.1); border: 1px solid rgba(99,102,241,0.2); border-radius: 12px; font-size: 11px; color: #818cf8; font-weight: 600; }
+
+/* SERVICES */
+.services { padding: 100px 70px; background: var(--bg2); }
+.services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; max-width: 1100px; margin: 0 auto; }
+.service-card { background: var(--card); padding: 35px; border-radius: 16px; border: 1px solid var(--border); transition: 0.3s; position: relative; overflow: hidden; }
+.service-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--primary), var(--accent)); transform: scaleX(0); transition: 0.4s; }
+.service-card:hover::before { transform: scaleX(1); }
+.service-card:hover { transform: translateY(-6px); border-color: rgba(99,102,241,0.25); }
+.service-icon { font-size: 38px; margin-bottom: 18px; display: block; }
+.service-card h3 { font-size: 20px; font-weight: 700; margin-bottom: 12px; }
+.service-card p { font-size: 14px; color: var(--muted); line-height: 1.7; }
+
+/* EXPERIENCE */
+.experience { padding: 100px 70px; background: var(--bg); }
+.experience-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; max-width: 1100px; margin: 0 auto; }
+.timeline { display: flex; flex-direction: column; gap: 0; }
+.timeline-item { display: flex; gap: 20px; padding-bottom: 35px; position: relative; }
+.timeline-item:last-child { padding-bottom: 0; }
+.timeline-item:not(:last-child)::before { content: ''; position: absolute; left: 19px; top: 40px; bottom: 0; width: 1px; background: var(--border); }
+.timeline-dot { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--secondary)); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+.timeline-content h3 { font-size: 17px; font-weight: 700; margin-bottom: 5px; }
+.timeline-content .company { font-size: 13px; color: var(--primary); font-weight: 600; margin-bottom: 5px; }
+.timeline-content .period { font-size: 12px; color: var(--muted); margin-bottom: 10px; }
+.timeline-content p { font-size: 13px; color: var(--muted); line-height: 1.7; }
+.about-right h3 { font-size: 28px; font-weight: 800; letter-spacing: -1px; margin-bottom: 20px; }
+.about-right h3 span { background: linear-gradient(135deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.about-right p { font-size: 15px; color: var(--muted); line-height: 1.8; margin-bottom: 25px; }
+.about-facts { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 30px; }
+.fact-item { background: var(--card); padding: 18px; border-radius: 12px; border: 1px solid var(--border); }
+.fact-item h4 { font-size: 24px; font-weight: 800; background: linear-gradient(135deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 4px; }
+.fact-item p { font-size: 12px; color: var(--muted); }
+
+/* TESTIMONIALS */
+.testimonials { padding: 100px 70px; background: var(--bg2); text-align: center; }
+.testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 1100px; margin: 60px auto 0; }
+.testimonial-card { background: var(--card); padding: 30px; border-radius: 16px; border: 1px solid var(--border); text-align: left; transition: 0.3s; }
+.testimonial-card:hover { border-color: rgba(99,102,241,0.3); transform: translateY(-4px); }
+.testimonial-stars { font-size: 14px; color: #f59e0b; margin-bottom: 15px; }
+.testimonial-card p { font-size: 14px; color: var(--muted); line-height: 1.8; margin-bottom: 20px; }
+.testimonial-author { display: flex; align-items: center; gap: 12px; }
+.author-avatar { width: 42px; height: 42px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--accent)); display: flex; align-items: center; justify-content: center; font-weight: 800; color: white; font-size: 16px; }
+.author-info h4 { font-size: 14px; font-weight: 700; }
+.author-info p { font-size: 12px; color: var(--muted); }
+
+/* CONTACT */
+.contact { padding: 100px 70px; background: var(--bg); }
+.contact-layout { display: grid; grid-template-columns: 1fr 1.2fr; gap: 80px; max-width: 1100px; margin: 0 auto; align-items: start; }
+.contact-left h2 { font-size: 42px; font-weight: 800; letter-spacing: -1px; margin-bottom: 20px; }
+.contact-left h2 span { background: linear-gradient(135deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.contact-left p { font-size: 16px; color: var(--muted); line-height: 1.8; margin-bottom: 35px; }
+.contact-items { display: flex; flex-direction: column; gap: 18px; margin-bottom: 30px; }
+.contact-item { display: flex; align-items: center; gap: 15px; }
+.contact-icon { width: 46px; height: 46px; background: rgba(99,102,241,0.1); border: 1px solid var(--border); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+.contact-item h4 { font-size: 13px; color: var(--muted); margin-bottom: 3px; }
+.contact-item p { font-size: 14px; font-weight: 600; }
+.contact-item a { color: var(--text); text-decoration: none; transition: 0.3s; }
+.contact-item a:hover { color: var(--primary); }
+.fiverr-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+.fiverr-btn { padding: 12px 22px; background: linear-gradient(135deg, #1dbf73, #19a463); color: white; border: none; border-radius: 10px; font-size: 14px; font-weight: 700; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 8px; }
+.fiverr-btn:hover { opacity: 0.9; transform: translateY(-2px); }
+.contact-form { background: var(--card); padding: 40px; border-radius: 20px; border: 1px solid var(--border); }
+.contact-form h3 { font-size: 22px; font-weight: 700; margin-bottom: 25px; }
+.form-group { margin-bottom: 20px; }
+.form-group label { display: block; font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+.form-group input, .form-group select, .form-group textarea { width: 100%; padding: 13px 16px; background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 10px; font-size: 14px; color: var(--text); outline: none; transition: 0.3s; }
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--primary); background: rgba(99,102,241,0.05); }
+.form-group textarea { height: 120px; resize: none; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+.submit-btn { width: 100%; padding: 15px; background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; border: none; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; transition: 0.3s; margin-top: 5px; }
+.submit-btn:hover { opacity: 0.9; transform: translateY(-2px); }
+
+/* FOOTER */
+footer { background: #020509; padding: 40px 70px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
+footer p { font-size: 14px; color: var(--muted); }
+footer span { color: var(--primary); }
+.footer-links { display: flex; gap: 25px; }
+.footer-links a { color: var(--muted); text-decoration: none; font-size: 14px; transition: 0.3s; }
+.footer-links a:hover { color: var(--primary); }
+
+/* MOBILE */
+@media (max-width: 768px) {
+    nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    .hero { flex-direction: column; padding: 90px 20px 50px; text-align: center; }
+    .hero h1 { font-size: 42px; }
+    .hero h1 .title { font-size: 24px; }
+    .hero-right { display: none; }
+    .hero-btns { justify-content: center; }
+    .hero-socials { justify-content: center; }
+    .hero-stats { justify-content: center; gap: 25px; }
+    .skills, .projects, .services, .experience, .testimonials, .contact { padding: 50px 20px; }
+    .section-header h2 { font-size: 32px; }
+    .skills-grid { grid-template-columns: repeat(2, 1fr); }
+    .projects-grid { grid-template-columns: 1fr; }
+    .services-grid { grid-template-columns: 1fr; }
+    .experience-layout { grid-template-columns: 1fr; gap: 40px; }
+    .testimonials-grid { grid-template-columns: 1fr; }
+    .contact-layout { grid-template-columns: 1fr; gap: 40px; }
+    .contact-form { padding: 25px; }
+    footer { flex-direction: column; text-align: center; padding: 30px 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+    <div class="logo">Saif Islam</div>
+    <div class="nav-links">
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="#services">Services</a>
+        <a href="#contact">Contact</a>
+    </div>
+    <button class="nav-hire" onclick="document.getElementById('contact').scrollIntoView()">Hire Me 🚀</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-left">
+        <div class="hero-status"><div class="status-dot"></div>Available for Freelance Work</div>
+        <h1>
+            <span class="name">Saif Islam</span>
+            <span class="title">Frontend Web Developer & Data Analysis</span>
+        </h1>
+        <p>I build beautiful websites using HTML, CSS & JavaScript — and analyze data using Python, Excel, SQL & Power BI. Based in Riyadh, Saudi Arabia — serving clients worldwide.</p>
+        <div class="hero-btns">
+            <button class="btn-main" onclick="document.getElementById('projects').scrollIntoView()">View My Work 💼</button>
+            <button class="btn-ghost" onclick="document.getElementById('contact').scrollIntoView()">Hire Me</button>
+        </div>
+        <div class="hero-socials">
+            <a class="social-link" href="https://www.fiverr.com/s/m5p0LQZ" target="_blank" title="Fiverr">💚</a>
+            <a class="social-link" href="https://mohammadsaifulva-web.github.io" target="_blank" title="GitHub">💻</a>
+            <a class="social-link" href="mailto:mohammadsaifulva@gmail.com" title="Email">📧</a>
+        </div>
+        <div class="hero-stats">
+            <div class="hero-stat"><h3>70+</h3><p>Projects Done</p></div>
+            <div class="hero-stat"><h3>3+</h3><p>Months Experience</p></div>
+            <div class="hero-stat"><h3>100%</h3><p>Satisfaction</p></div>
+        </div>
+    </div>
+    <div class="hero-right">
+        <div class="hero-avatar">
+            <img src="profile.jpg" alt="Saiful Islam" class="profile-img">
+        </div>
+             <div class="floating-badge top-right">
+                <span class="badge-icon">⚡</span>
+                <span>Fast Delivery</span>
+            </div>
+            <div class="floating-badge bottom-left">
+                <span class="badge-icon">⭐</span>
+                <span>Top Quality</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SKILLS -->
+<section class="skills" id="skills">
+    <div class="section-header reveal">
+        <p class="section-tag">My Expertise</p>
+        <h2>Skills & <span>Technologies</span></h2>
+        <p>Technologies I use to build exceptional websites</p>
+    </div>
+    <div class="skills-grid">
+        <div class="skill-card reveal">
+            <span class="skill-icon">🌐</span>
+            <h3>HTML5</h3>
+            <div class="skill-bar"><div class="skill-fill" style="width:100%"></div></div>
+            <p class="skill-percent">100% — Expert</p>
+        </div>
+        <div class="skill-card reveal">
+            <span class="skill-icon">🎨</span>
+            <h3>CSS3</h3>
+            <div class="skill-bar"><div class="skill-fill" style="width:100%"></div></div>
+            <p class="skill-percent">100% — Expert</p>
+        </div>
+        <div class="skill-card reveal">
+            <span class="skill-icon">⚡</span>
+            <h3>JavaScript</h3>
+            <div class="skill-bar"><div class="skill-fill" style="width:95%"></div></div>
+            <p class="skill-percent">80% — advanced</p>
+        </div>
+        <div class="skill-card reveal">
+            <span class="skill-icon">📱</span>
+            <h3>Responsive Design</h3>
+            <div class="skill-bar"><div class="skill-fill" style="width:92%"></div></div>
+            <p class="skill-percent">92% — Expert</p>
+        </div>
+        <div class="skill-card reveal">
+            <span class="skill-icon">✨</span>
+            <h3>CSS Animation</h3>
+            <div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div>
+            <p class="skill-percent">85% — Advanced</p>
+        </div>
+        <div class="skill-card reveal">
+            <span class="skill-icon">🔷</span>
+            <h3>CSS Grid & Flexbox</h3>
+            <div class="skill-bar"><div class="skill-fill" style="width:90%"></div></div>
+            <p class="skill-percent">90% — Expert</p>
+        </div>
+        <div class="skill-card reveal">
+            <span class="skill-icon">🎯</span>
+            <h3>UI/UX Design</h3>
+            <div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div>
+            <p class="skill-percent">85% — advanced</p>
+        </div>
+        <div class="skill-card reveal">
+            <span class="skill-icon">🐙</span>
+            <h3>GitHub</h3>
+            <div class="skill-bar"><div class="skill-fill" style="width:70%"></div></div>
+            <p class="skill-percent">70% — Intermediate</p>
+        </div>
+        <div class="skill-card reveal">
+    <span class="skill-icon">🐍</span>
+    <h3>Python</h3>
+    <div class="skill-bar"><div class="skill-fill" style="width:75%"></div></div>
+    <p class="skill-percent">75% — Intermediate</p>
+</div>
+<div class="skill-card reveal">
+    <span class="skill-icon">📊</span>
+    <h3>Microsoft Excel</h3>
+    <div class="skill-bar"><div class="skill-fill" style="width:100%"></div></div>
+    <p class="skill-percent">100% — Expert</p>
+</div>
+<div class="skill-card reveal">
+    <span class="skill-icon">📋</span>
+    <h3>Google Sheets</h3>
+    <div class="skill-bar"><div class="skill-fill" style="width:95%"></div></div>
+    <p class="skill-percent">95% — Expert</p>
+</div>
+<div class="skill-card reveal">
+    <span class="skill-icon">🗄️</span>
+    <h3>SQL</h3>
+    <div class="skill-bar"><div class="skill-fill" style="width:90%"></div></div>
+    <p class="skill-percent">90% — Expert</p>
+</div>
+<div class="skill-card reveal">
+    <span class="skill-icon">📈</span>
+    <h3>Power BI</h3>
+    <div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div>
+    <p class="skill-percent">80% — advanced</p>
+</div>
+<div class="skill-card reveal">
+    <span class="skill-icon">🧹</span>
+    <h3>Data Cleaning</h3>
+    <div class="skill-bar"><div class="skill-fill" style="width:95%"></div></div>
+    <p class="skill-percent">95% — Expert</p>
+</div>
+<div class="service-card reveal">
+    <span class="service-icon">📊</span>
+    <h3>Data Analysis</h3>
+    <p>Clean, analyze and visualize your data using Python Pandas and Excel to uncover valuable business insights.</p>
+</div>
+<div class="service-card reveal">
+    <span class="service-icon">📈</span>
+    <h3>Excel & Google Sheets</h3>
+    <p>Build powerful dashboards, automate reports and create formulas that save you hours of manual work.</p>
+</div>
+<div class="service-card reveal">
+    <span class="service-icon">🗄️</span>
+    <h3>SQL Database Analysis</h3>
+    <p>Write efficient SQL queries to extract, filter and analyze data from databases quickly and accurately.</p>
+</div>
+    </div>
+</section>
+
+<!-- PROJECTS -->
+<section class="projects" id="projects">
+    <div class="section-header reveal">
+        <p class="section-tag">My Work</p>
+        <h2>Featured <span>Projects</span></h2>
+        <p>A selection of my best work across different industries</p>
+    </div>
+    <div class="projects-filter reveal">
+        <button class="filter-pill active" onclick="filterProjects('all', this)">All</button>
+        <button class="filter-pill" onclick="filterProjects('ecommerce', this)">E-Commerce</button>
+        <button class="filter-pill" onclick="filterProjects('saas', this)">SaaS</button>
+        <button class="filter-pill" onclick="filterProjects('crypto', this)">Crypto</button>
+        <button class="filter-pill" onclick="filterProjects('music', this)">Music</button>
+        <button class="filter-pill" onclick="filterProjects('agency', this)">Agency</button>
+    </div>
+    <div class="projects-grid" id="projectsGrid"></div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+    <div class="section-header reveal">
+        <p class="section-tag">What I Offer</p>
+        <h2>My <span>Services</span></h2>
+        <p>Professional web development services tailored to your needs</p>
+    </div>
+    <div class="services-grid">
+        <div class="service-card reveal">
+            <span class="service-icon">🌐</span>
+            <h3>Business Websites</h3>
+            <p>Modern, professional business websites that attract customers and represent your brand perfectly.</p>
+        </div>
+        <div class="service-card reveal">
+            <span class="service-icon">🛍️</span>
+            <h3>E-Commerce Shops</h3>
+            <p>Complete online stores with product listings, shopping cart and smooth checkout experience.</p>
+        </div>
+        <div class="service-card reveal">
+            <span class="service-icon">🚀</span>
+            <h3>Landing Pages</h3>
+            <p>High-converting landing pages for SaaS, apps and campaigns that turn visitors into customers.</p>
+        </div>
+        <div class="service-card reveal">
+            <span class="service-icon">📱</span>
+            <h3>Responsive Design</h3>
+            <p>Websites that look stunning on every device — mobile, tablet and desktop.</p>
+        </div>
+        <div class="service-card reveal">
+            <span class="service-icon">✨</span>
+            <h3>Animations & Effects</h3>
+            <p>Smooth, modern animations that make your website feel premium and engaging.</p>
+        </div>
+        <div class="service-card reveal">
+            <span class="service-icon">🔧</span>
+            <h3>Website Fixes</h3>
+            <p>Fix bugs, improve performance and update existing websites quickly and efficiently.</p>
+        </div>
+    </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section class="experience" id="experience">
+    <div class="section-header reveal" style="text-align:left;margin-bottom:50px">
+        <p class="section-tag">Background</p>
+        <h2 style="font-size:46px;font-weight:800;letter-spacing:-2px">Experience & <span style="background:linear-gradient(135deg,var(--primary),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent">About Me</span></h2>
+    </div>
+    <div class="experience-layout">
+        <div class="timeline reveal">
+            <div class="timeline-item">
+                <div class="timeline-dot">💼</div>
+                <div class="timeline-content">
+                    <h3>Frontend Web Developer</h3>
+                    <p class="company">Self Employed — Freelancer</p>
+                    <p class="period">2024 — Present • Riyadh, Saudi Arabia</p>
+                    <p>Building modern websites for clients worldwide using HTML5, CSS3 and JavaScript. Completed 70+ projects across various industries.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot">📚</div>
+                <div class="timeline-content">
+                    <h3>Self-Learning Journey</h3>
+                    <p class="company">Online Learning</p>
+                    <p class="period">2024 — Present</p>
+                    <p>Dedicated to mastering web development through hands-on practice, building real projects and continuous learning every day.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot">🎯</div>
+                <div class="timeline-content">
+                    <h3>70+ Projects Completed</h3>
+                    <p class="company">Portfolio Work</p>
+                    <p class="period">2024 — Present</p>
+                    <p>Built websites for restaurants, hotels, law firms, e-commerce stores, SaaS platforms and many more business types.</p>
+                </div>
+            </div>
+        </div>
+        <div class="about-right reveal">
+            <h3>Hello! I'm <span>Saif Islam</span> 👋</h3>
+            <p>I am a passionate Frontend Web Developer from Bangladesh, currently based in Riyadh, Saudi Arabia. I specialize in creating beautiful, responsive and modern websites that help businesses grow online.</p>
+            <p>Every project I take on receives my full attention and dedication. I believe a great website should be fast, beautiful and user-friendly.</p>
+            <div class="about-facts">
+                <div class="fact-item"><h4>70+</h4><p>Projects Completed</p></div>
+                <div class="fact-item"><h4>100%</h4><p>Satisfaction Rate</p></div>
+                <div class="fact-item"><h4>24h</h4><p>Response Time</p></div>
+                <div class="fact-item"><h4>2</h4><p>Fiverr Gigs</p></div>
+            </div>
+            <button class="btn-main" onclick="document.getElementById('contact').scrollIntoView()">Let's Work Together →</button>
+        </div>
+    </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+    <div class="section-header reveal">
+        <p class="section-tag">Reviews</p>
+        <h2>Client <span>Testimonials</span></h2>
+        <p>What clients say about working with me</p>
+    </div>
+    <div class="testimonials-grid">
+        <div class="testimonial-card reveal">
+            <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+            <p>"Saif built an amazing website for my restaurant. Fast delivery, professional design and great communication throughout the project!"</p>
+            <div class="testimonial-author">
+                <div class="author-avatar">A</div>
+                <div class="author-info"><h4>Ahmed Al-Rashid</h4><p>Restaurant Owner, Riyadh</p></div>
+            </div>
+        </div>
+        <div class="testimonial-card reveal">
+            <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+            <p>"Excellent work! Saif delivered exactly what I needed. The website looks stunning on mobile and desktop. Highly recommended!"</p>
+            <div class="testimonial-author">
+                <div class="author-avatar">S</div>
+                <div class="author-info"><h4>Sara Hassan</h4><p>Business Owner, Jeddah</p></div>
+            </div>
+        </div>
+        <div class="testimonial-card reveal">
+            <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
+            <p>"Best developer I have worked with! Very professional, creative and always delivers on time. Will definitely hire again!"</p>
+            <div class="testimonial-author">
+                <div class="author-avatar">O</div>
+                <div class="author-info"><h4>Omar Khan</h4><p>Startup Founder, Dubai</p></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+    <div class="contact-layout">
+        <div class="contact-left reveal">
+            <h2>Let's Work<br><span>Together!</span></h2>
+            <p>I am available for freelance projects. Let's discuss your project and build something amazing together!</p>
+            <div class="contact-items">
+                <div class="contact-item">
+                    <div class="contact-icon">📧</div>
+                    <div>
+                        <h4>Email</h4>
+                        <p><a href="mailto:mohammadsaifulva@gmail.com">mohammadsaifulva@gmail.com</a></p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">📍</div>
+                    <div>
+                        <h4>Location</h4>
+                        <p>Riyadh, Saudi Arabia</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">💻</div>
+                    <div>
+                        <h4>Portfolio</h4>
+                        <p><a href="https://mohammadsaifulva-web.github.io" target="_blank">mohammadsaifulva-web.github.io</a></p>
+                    </div>
+                </div>
+            </div>
+            <p style="font-size:14px;color:var(--muted);margin-bottom:15px;font-weight:600">Hire me on Fiverr:</p>
+            <div class="fiverr-btns">
+                <button class="fiverr-btn" onclick="window.open('https://www.fiverr.com/s/m5p0LQZ','_blank')">💚 Web Dev Gig</button>
+                <button class="fiverr-btn" onclick="window.open('https://www.fiverr.com/s/XLGP1WV','_blank')">💚 Data Gig</button>
+            </div>
+        </div>
+        <div class="contact-form reveal">
+            <h3>Send Me a Message 💬</h3>
+            <div class="form-row">
+                <div class="form-group"><label>Your Name</label><input type="text" placeholder="Ahmed Ali"></div>
+                <div class="form-group"><label>Your Email</label><input type="email" placeholder="ahmed@email.com"></div>
+            </div>
+            <div class="form-group">
+                <label>Project Type</label>
+                <select>
+                    <option>Business Website</option>
+                    <option>E-commerce Store</option>
+                    <option>Landing Page</option>
+                    <option>Portfolio Website</option>
+                    <option>Other</option>
+                </select>
+            </div>
+            <div class="form-group"><label>Budget</label>
+                <select>
+                    <option>$15 - $40 (Basic)</option>
+                    <option>$40 - $75 (Standard)</option>
+                    <option>$75+ (Premium)</option>
+                </select>
+            </div>
+            <div class="form-group"><label>Message</label><textarea placeholder="Tell me about your project..."></textarea></div>
+            <button class="submit-btn" onclick="alert('Message sent! I will reply within 24 hours. Thank you!')">Send Message 🚀</button>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <p>© 2026 <span>Saif Islam</span>. All Rights Reserved. Built with ❤️</p>
+    <div class="footer-links">
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+        <a href="https://www.fiverr.com/s/m5p0LQZ" target="_blank">Fiverr</a>
+    </div>
+</footer>
+
+<script>
+const projects = [
+    { id:1, cat:'ecommerce', title:'SaifStore — Fashion E-Commerce', desc:'Full e-commerce store with cart, filters, wishlist and checkout system.', emoji:'🛍️', tech:['HTML','CSS','JavaScript'], file:'ecommerce2.html' },
+    { id:2, cat:'music', title:'SaifBand — Music Band Website', desc:'Professional music band website with music player, tour dates and album showcase.', emoji:'🎸', tech:['HTML','CSS','JavaScript'], file:'music.html' },
+    { id:3, cat:'saas', title:'FlowSaaS — SaaS Landing Page', desc:'Modern SaaS landing page with pricing, features and newsletter signup.', emoji:'🚀', tech:['HTML','CSS','JavaScript'], file:'saas.html' },
+    { id:4, cat:'agency', title:'Saif Agency — Digital Marketing', desc:'Digital marketing agency website with services, results and process sections.', emoji:'🔥', tech:['HTML','CSS','JavaScript'], file:'agency.html' },
+    { id:5, cat:'crypto', title:'CryptoSaif — Crypto & NFT Platform', desc:'Crypto platform with live price ticker, NFT cards and trading features.', emoji:'⬡', tech:['HTML','CSS','JavaScript'], file:'crypto.html' },
+    { id:6, cat:'saas', title:'SaifDash — Admin Dashboard', desc:'Dark mode admin dashboard with charts, stats and data tables.', emoji:'📊', tech:['HTML','CSS','JavaScript'], file:'dashboard.html' },
+];
+
+let filtered = [...projects];
+
+function renderProjects(list) {
+    document.getElementById('projectsGrid').innerHTML = list.map(p => `
+        <div class="project-card">
+            <div class="project-thumb">
+                ${p.emoji}
+                <div class="project-overlay">
+                    <button class="overlay-btn primary" onclick="alert('Opening ${p.title}!')">View Project</button>
+                    <button class="overlay-btn ghost" onclick="alert('${p.file}')">Source</button>
+                </div>
+            </div>
+            <div class="project-info">
+                <div class="project-tag">${p.cat}</div>
+                <h3>${p.title}</h3>
+                <p>${p.desc}</p>
+                <div class="project-tech">
+                    ${p.tech.map(t => `<span class="tech-tag">${t}</span>`).join('')}
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+function filterProjects(cat, btn) {
+    document.querySelectorAll('.filter-pill').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    filtered = cat === 'all' ? [...projects] : projects.filter(p => p.cat === cat);
+    renderProjects(filtered);
+}
+
+// Scroll Reveal
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('active');
+    });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+renderProjects(projects);
+</script>
+</body>
+</html>
